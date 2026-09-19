@@ -24,18 +24,7 @@
     --radius: 6px;
     --shadow: none;
   }
-  :root:not([data-theme="light"]) {
-    @media (prefers-color-scheme: dark) {
-      --paper:#161C18;
-      --paper-2:#1E2620;
-      --ink:#F2EFE4;
-      --ink-soft:#C4CBC2;
-      --card-bg:#212B23;
-      --line: rgba(242,239,228,0.16);
-      --logo-chip: rgba(255,255,255,0.92);
-    }
-  }
-  .logo-chip{ background:var(--logo-chip, transparent); }
+  .logo-chip{ background:transparent; }
   :root[data-theme="dark"]{
     --paper:#161C18;
     --paper-2:#1E2620;
