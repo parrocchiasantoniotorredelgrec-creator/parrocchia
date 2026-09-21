@@ -355,30 +355,6 @@
     </div>
   </section>
 
-  <!-- GRUPPI -->
-  <section id="gruppi" style="background:var(--paper-2);">
-    <div class="wrap">
-      <div class="sec-head">
-        <span class="sec-tag">Vita comunitaria</span>
-        <h2>I gruppi della parrocchia</h2>
-        <p>Ogni gruppo è un modo diverso di vivere la fede in comunità. Scegli il tuo e invia la richiesta d'iscrizione: ti ricontatteremo per i dettagli.</p>
-      </div>
-      <div class="grp-grid" id="grpGrid"></div>
-    </div>
-  </section>
-
-  <!-- SACRAMENTI -->
-  <section id="sacramenti">
-    <div class="wrap">
-      <div class="sec-head">
-        <span class="sec-tag">Cammini di fede</span>
-        <h2>I sacramenti</h2>
-        <p>Per informazioni su percorsi, requisiti e prossime date, contatta l'ufficio parrocchiale.</p>
-      </div>
-      <div class="sacr-grid" id="sacrGrid"></div>
-    </div>
-  </section>
-
   <!-- AVVISI -->
   <section id="avvisi" style="background:var(--paper-2);">
     <div class="wrap">
@@ -388,19 +364,6 @@
         <p>Le comunicazioni della settimana per tutta la comunità.</p>
       </div>
       <div class="board" id="noticeBoard"></div>
-    </div>
-  </section>
-
-  <!-- FOTOGALLERY -->
-  <section id="fotogallery">
-    <div class="wrap">
-      <div class="sec-head">
-        <span class="sec-tag">Momenti insieme</span>
-        <h2>Fotogallery</h2>
-        <p>Uno spazio per raccontare per immagini la vita della comunità.</p>
-      </div>
-      <div class="gallery" id="galleryGrid"></div>
-      <p class="gallery-note">Spazio pronto per le foto della parrocchia: eventi, celebrazioni, attività dei gruppi e della festa patronale.</p>
     </div>
   </section>
 
@@ -423,13 +386,13 @@
           <div class="contact-item">
             <div>
               <strong>Telefono</strong>
-              <span><a href="tel:+390818813879">081 881 3879</a></span>
+              <span><a href="tel:+393713238725">371 323 8725</a></span>
             </div>
           </div>
           <div class="contact-item">
             <div>
               <strong>Email</strong>
-              <span><a href="mailto:info@parrocchiasantantoniodipadova.it">info@parrocchiasantantoniodipadova.it</a></span>
+              <span><a href="mailto:parrocchiasantoniotorredelgrec@gmail.com">parrocchiasantoniotorredelgrec@gmail.com</a></span>
             </div>
           </div>
         </div>
@@ -589,27 +552,6 @@
   let autoplay = setInterval(() => goTo(carIndex + 1), 5500);
   function resetAutoplay(){ clearInterval(autoplay); autoplay = setInterval(() => goTo(carIndex + 1), 5500); }
 
-  // ---- Data: Gruppi ----
-  const GRUPPI = [
-    ["AGESCI", "Associazione scout cattolica per bambini, ragazzi e giovani, dai Lupetti ai Clan."],
-    ["Apostolato della Preghiera", "Comunità di preghiera per le intenzioni del Santo Padre e della Chiesa."],
-    ["Caritas parrocchiale", "Ascolto e sostegno concreto verso le persone e le famiglie in difficoltà."],
-    ["Gioventù Francescana", "Cammino di fede per giovani ispirato alla spiritualità di San Francesco."],
-    ["Gruppo di Preghiera \u201cFigli nella Luce\u201d", "Incontri settimanali di preghiera, lode e ascolto della Parola."],
-    ["Gruppo Liturgico", "Cura della liturgia, degli addobbi e degli spazi per le celebrazioni."],
-    ["Catechisti", "Accompagnano bambini e ragazzi nel cammino verso i sacramenti."],
-    ["Ministranti", "Servono all'altare durante le celebrazioni eucaristiche."],
-    ["Cammino Neocatecumenale", "Itinerario di formazione cristiana per adulti e famiglie."],
-    ["Rinnovamento nello Spirito", "Gruppo di preghiera carismatica aperto a tutta la comunità."],
-    ["Lettori", "Proclamano la Parola di Dio durante le Sante Messe."],
-    ["Lupetti", "Il primo passo del cammino scout, per bambini dagli 8 agli 11 anni."],
-    ["M.A.S.C.I.", "Movimento Adulti Scout Cattolici Italiani: fede e servizio in età adulta."],
-    ["Ministri Straordinari dell'Eucaristia", "Portano la Comunione agli anziani e ai malati."],
-    ["Ordine Francescano Secolare", "Laici che vivono il Vangelo secondo lo spirito di San Francesco."],
-    ["Oratorio San Francesco", "Spazio d'incontro, gioco e formazione per bambini e ragazzi."],
-    ["Schola Cantorum", "Anima con il canto le celebrazioni liturgiche della parrocchia."]
-  ];
-
   const grpGrid = document.getElementById('grpGrid');
   GRUPPI.forEach(([name, desc], i) => {
     const color = PALETTE[i % PALETTE.length];
@@ -622,24 +564,6 @@
       <button class="grp-join" style="color:${color}" data-group="${name}">Iscriviti →</button>
     `;
     grpGrid.appendChild(card);
-  });
-
-  // ---- Data: Sacramenti ----
-  const SACRAMENTI = [
-    ["Battesimo", "Accoglienza nella comunità cristiana. Incontri di preparazione per i genitori."],
-    ["Prima Comunione", "Percorso di catechismo per bambini, in preparazione al sacramento."],
-    ["Cresima", "Cammino di formazione per ragazzi e adulti verso la Confermazione."],
-    ["Confessione", "Disponibile prima delle Sante Messe o su appuntamento."],
-    ["Matrimonio", "Percorso di preparazione per le coppie che desiderano sposarsi in chiesa."],
-    ["Unzione degli infermi", "Vicinanza e conforto spirituale a chi è malato o anziano."]
-  ];
-  const sacrGrid = document.getElementById('sacrGrid');
-  SACRAMENTI.forEach(([name, desc], i) => {
-    const color = PALETTE[i % PALETTE.length];
-    const cell = document.createElement('div');
-    cell.className = 'sacr-cell';
-    cell.innerHTML = `<span class="dot" style="background:${color}"></span><h3>${name}</h3><p>${desc}</p>`;
-    sacrGrid.appendChild(cell);
   });
 
   // ---- Data: Avvisi ----
@@ -656,24 +580,6 @@
     n.innerHTML = `<div class="notice-date">${date}</div><div><h3>${title}</h3><p>${text}</p></div>`;
     board.appendChild(n);
   });
-
-  // ---- Fotogallery placeholders ----
-  const gallery = document.getElementById('galleryGrid');
-  for(let i=0;i<8;i++){
-    const t = document.createElement('div');
-    t.className = 'tile';
-    t.style.background = PALETTE[i % PALETTE.length];
-    t.style.opacity = 0.85;
-    t.textContent = 'Foto in arrivo';
-    gallery.appendChild(t);
-  }
-
-  // ---- Modal iscrizione ----
-  const modalBack = document.getElementById('modalBack');
-  const modalClose = document.getElementById('modalClose');
-  const modalGroupName = document.getElementById('modalGroupName');
-  const joinForm = document.getElementById('joinForm');
-  let currentGroup = '';
 
   grpGrid.addEventListener('click', (e) => {
     const btn = e.target.closest('.grp-join');
