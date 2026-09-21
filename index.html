@@ -83,6 +83,21 @@
   nav.links a:hover{color:var(--coral); border-color:var(--coral);}
   .burger{display:none; background:none; border:none; cursor:pointer; padding:8px;}
   .burger span{display:block; width:22px; height:2px; background:var(--ink); margin:5px 0; border-radius:2px;}
+  .nav-item{position:relative;}
+  .nav-item > a::after{ content:"▾"; font-size:10px; margin-left:4px; opacity:.6; }
+  .dropdown{
+    display:none; position:absolute; top:calc(100% + 10px); left:50%; transform:translateX(-50%);
+    background:var(--card-bg); border:1px solid var(--line); border-radius:10px;
+    box-shadow:0 14px 34px rgba(20,30,24,.14); padding:10px; min-width:250px; z-index:60;
+  }
+  .dropdown a{
+    display:block; padding:9px 12px; border-radius:6px; font-size:13.6px;
+    font-weight:600; color:var(--ink); text-decoration:none; border-bottom:none !important; white-space:nowrap;
+  }
+  .dropdown a:hover{background:var(--paper-2); color:var(--coral);}
+  .nav-item:hover .dropdown, .nav-item:focus-within .dropdown{display:block;}
+  .nav-item::before{ content:""; position:absolute; top:100%; left:0; right:0; height:12px; }
+ 
   @media (max-width: 880px){
     nav.links{
       position:fixed; inset:60px 0 auto 0; background:var(--paper);
@@ -94,6 +109,12 @@
     nav.links.open{transform:translateY(0); opacity:1; pointer-events:auto;}
     nav.links a{padding:12px 4px; border-bottom:1px solid var(--line);}
     .burger{display:block;}
+    .dropdown{
+      display:block; position:static; transform:none; border:none; box-shadow:none;
+      padding:0 0 6px 14px; min-width:0;
+    }
+    .dropdown a{padding:9px 4px; font-weight:500; border-bottom:1px dashed var(--line) !important; color:var(--ink-soft);}
+    .nav-item > a::after{display:none;}
   }
 
   @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
@@ -207,6 +228,20 @@
   .info-line span:last-child{font-weight:600; text-align:right;}
 
   /* ---------- Contatti ---------- */
+  .grp-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  @media (max-width:880px){ .grp-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .grp-grid{grid-template-columns:1fr;} }
+  .grp-card{
+    border:1px solid var(--line); border-radius:var(--radius); padding:20px;
+    background:var(--card-bg); display:flex; flex-direction:column; gap:10px; position:relative;
+  }
+  .grp-card .bar{position:absolute; left:0; top:0; bottom:0; width:4px; border-radius:4px 0 0 4px;}
+  .grp-card h3{font-size:16px; padding-left:8px;}
+  .grp-card p{margin:0; color:var(--ink-soft); font-size:13.6px; flex:1; padding-left:8px;}
+  .grp-join{
+    align-self:flex-start; margin-left:8px; font-size:13.5px; font-weight:700; cursor:pointer;
+    background:none; border:none; padding:2px 0; border-bottom:2px solid currentColor; font-family:'Figtree';
+  }
   .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px;}
   @media (max-width:760px){ .contact-grid{grid-template-columns:1fr;} }
   .contact-item{display:flex; gap:14px; padding:16px 0; border-bottom:1px solid var(--line);}
@@ -269,6 +304,7 @@
     <nav class="links" id="navLinks">
       <a href="#parrocchia">Parrocchia</a>
       <a href="#gruppi">Gruppi</a>
+      <div class="dropdown"id="gruppiDropdown"/></div>
       <a href="#sacramenti">Sacramenti</a>
       <a href="#avvisi">Avvisi</a>
       <a href="#fotogallery">Fotogallery</a>
@@ -510,12 +546,34 @@
   document.getElementById('nextBtn').addEventListener('click', () => goTo(carIndex + 1));
   let autoplay = setInterval(() => goTo(carIndex + 1), 5500);
   function resetAutoplay(){ clearInterval(autoplay); autoplay = setInterval(() => goTo(carIndex + 1), 5500); }
-
+  const GRUPPI = [
+    ["Catechismo", "Cammino di formazione cristiana per bambini e ragazzi verso i sacramenti."],
+    ["Caritas", "Ascolto e sostegno concreto per le persone e le famiglie in difficoltà."],
+    ["Corali", "Anima con il canto le celebrazioni liturgiche della parrocchia."],
+    ["O.F.S. — Ordine Francescano Secolare", "Laici che vivono il Vangelo secondo lo spirito di San Francesco."],
+    ["GiFra — Gioventù Francescana", "Cammino di fede per giovani ispirato alla spiritualità francescana."],
+    ["Araldini", "Il primo passo del cammino francescano, per i più piccoli della comunità."],
+    ["AGESCI", "Associazione scout cattolica per bambini, ragazzi e giovani."],
+    ["M.A.S.C.I.", "Movimento Adulti Scout Cattolici Italiani: fede e servizio in età adulta."],
+    ["Ministranti", "Servono all'altare durante le celebrazioni eucaristiche."],
+    ["Chiamami per Nome", "Un gruppo di accoglienza e vicinanza alle persone della comunità."],
+    ["Figli della Luce", "Incontri settimanali di preghiera, lode e ascolto della Parola."],
+    ["Rinnovamento nello Spirito", "Gruppo di preghiera carismatica aperto a tutta la comunità."],
+    ["Gruppo Lettori", "Proclamano la Parola di Dio durante le Sante Messe."],
+    ["Apostolato della Preghiera", "Comunità di preghiera per le intenzioni del Santo Padre e della Chiesa."]
+  ];
+ 
+  function slugify(name){
+    return 'grp-' + name.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  }
   const grpGrid = document.getElementById('grpGrid');
   GRUPPI.forEach(([name, desc], i) => {
     const color = PALETTE[i % PALETTE.length];
     const card = document.createElement('div');
     card.className = 'grp-card';
+    card.id = slugify(name);
     card.innerHTML = `
       <div class="bar" style="background:${color}"></div>
       <h3>${name}</h3>
@@ -524,7 +582,35 @@
     `;
     grpGrid.appendChild(card);
   });
-
+  const dropdown = document.getElementById('gruppiDropdown');
+  GRUPPI.forEach(([name]) => {
+    const a = document.createElement('a');
+    a.href = '#' + slugify(name);
+    a.textContent = name;
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+    dropdown.appendChild(a);
+  });
+ 
+  const SACRAMENTI = [
+    ["Battesimo", "Accoglienza nella comunità cristiana. Incontri di preparazione per i genitori."],
+    ["Prima Comunione", "Percorso di catechismo per bambini, in preparazione al sacramento."],
+    ["Cresima", "Cammino di formazione per ragazzi e adulti verso la Confermazione."],
+    ["Confessione", "Disponibile prima delle Sante Messe o su appuntamento."],
+    ["Matrimonio", "Percorso di preparazione per le coppie che desiderano sposarsi in chiesa."],
+    ["Unzione degli infermi", "Vicinanza e conforto spirituale a chi è malato o anziano."]
+  ];
+  const sacrGrid = document.getElementById('sacrGrid');
+  SACRAMENTI.forEach(([name, desc], i) => {
+    const color = PALETTE[i % PALETTE.length];
+    const cell = document.createElement('div');
+    cell.className = 'grp-card';
+    cell.innerHTML = `<div class="bar"
+												     style="background:${color}"/>
+												<h3>${name}</h3>
+												<p>${desc}</p>`;
+    sacrGrid.appendChild(cell);
+  });
+ 
   // ---- Data: Avvisi ----
   const AVVISI = [
     ["Ogni domenica", "Orario Sante Messe", "8:00 · 10:00 · 11:30 · 19:00 — accoglienza in chiesa 15 minuti prima."],
