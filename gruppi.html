@@ -86,6 +86,7 @@
   .burger{display:none; background:none; border:none; cursor:pointer; padding:8px;}
   .burger span{display:block; width:22px; height:2px; background:var(--ink); margin:5px 0; border-radius:2px;}
   .nav-item{position:relative;}
+  .nav-item > a{display:block;}
   .nav-item > a::after{ content:"▾"; font-size:10px; margin-left:4px; opacity:.6; }
   .dropdown{
     display:none; position:absolute; top:calc(100% + 10px); left:50%; transform:translateX(-50%);
@@ -311,7 +312,10 @@
         <a href="gruppi.html">Gruppi</a>
         <div class="dropdown" id="gruppiDropdown"></div>
       </div>
-      <a href="index.html#sacramenti">Sacramenti</a>
+      <div class="nav-item" id="sacramentiNavItem">
+        <a href="sacramenti.html">Sacramenti</a>
+        <div class="dropdown" id="sacramentiDropdown"></div>
+      </div>
       <a href="index.html#avvisi">Avvisi</a>
       <a href="index.html#fotogallery">Fotogallery</a>
     </nav>
@@ -394,28 +398,34 @@
   // ---- Mobile nav ----
   const burger = document.getElementById('burger');
   const navLinks = document.getElementById('navLinks');
-  const gruppiNavItem = document.getElementById('gruppiNavItem');
-  const gruppiToggleLink = gruppiNavItem.querySelector('a');
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  const navItemToggles = navItems.map(item => item.querySelector('a'));
 
   burger.addEventListener('click', () => {
     navLinks.classList.toggle('open');
-    if (!navLinks.classList.contains('open')) gruppiNavItem.classList.remove('open');
+    if (!navLinks.classList.contains('open')) navItems.forEach(item => item.classList.remove('open'));
   });
 
-  // Su mobile il tap su "Gruppi" apre/chiude il sottomenu invece di navigare subito;
-  // su desktop il link funziona normalmente (il sottomenu si apre gia al passaggio del mouse).
-  gruppiToggleLink.addEventListener('click', (e) => {
-    if (window.matchMedia('(max-width: 880px)').matches) {
-      e.preventDefault();
-      gruppiNavItem.classList.toggle('open');
-    }
+  // Su mobile il tap sulla voce principale (Gruppi/Sacramenti) apre/chiude il proprio sottomenu
+  // invece di navigare subito; su desktop il link funziona normalmente (il sottomenu si apre
+  // gia al passaggio del mouse). Aprirne uno chiude automaticamente l'altro.
+  navItems.forEach((item) => {
+    const toggle = item.querySelector('a');
+    toggle.addEventListener('click', (e) => {
+      if (window.matchMedia('(max-width: 880px)').matches) {
+        e.preventDefault();
+        const wasOpen = item.classList.contains('open');
+        navItems.forEach(other => other.classList.remove('open'));
+        item.classList.toggle('open', !wasOpen);
+      }
+    });
   });
 
   navLinks.querySelectorAll('a').forEach(a => {
-    if (a === gruppiToggleLink) return;
+    if (navItemToggles.includes(a)) return;
     a.addEventListener('click', () => {
       navLinks.classList.remove('open');
-      gruppiNavItem.classList.remove('open');
+      navItems.forEach(item => item.classList.remove('open'));
     });
   });
 
@@ -437,8 +447,8 @@
     ["Apostolato della Preghiera", "Comunità di preghiera per le intenzioni del Santo Padre e della Chiesa."]
   ];
 
-  function slugify(name){
-    return 'grp-' + name.toLowerCase()
+  function slugify(name, prefix){
+    return (prefix || 'grp') + '-' + name.toLowerCase()
       .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
       .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   }
@@ -465,6 +475,24 @@
     a.textContent = name;
     a.addEventListener('click', () => navLinks.classList.remove('open'));
     dropdown.appendChild(a);
+  });
+
+  // ---- Sacramenti: voci del menu a tendina (le schede vivono in sacramenti.html) ----
+  const SACRAMENTI = [
+    ["Battesimo", "Accoglienza nella comunità cristiana. Incontri di preparazione per i genitori."],
+    ["Prima Comunione", "Percorso di catechismo per bambini, in preparazione al sacramento."],
+    ["Cresima", "Cammino di formazione per ragazzi e adulti verso la Confermazione."],
+    ["Confessione", "Disponibile prima delle Sante Messe o su appuntamento."],
+    ["Matrimonio", "Percorso di preparazione per le coppie che desiderano sposarsi in chiesa."],
+    ["Unzione degli infermi", "Vicinanza e conforto spirituale a chi è malato o anziano."]
+  ];
+  const sacramentiDropdown = document.getElementById('sacramentiDropdown');
+  SACRAMENTI.forEach(([name]) => {
+    const a = document.createElement('a');
+    a.href = 'sacramenti.html#' + slugify(name, 'sac');
+    a.textContent = name;
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+    sacramentiDropdown.appendChild(a);
   });
 
   // ---- Modale di iscrizione ----
@@ -514,7 +542,7 @@
       `Email: ${email || '-'}\n` +
       `Note: ${note || '-'}\n`
     );
-    window.location.href = `mailto:parrocchiasantoniotorredelgrec@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:info@parrocchiasantantoniodipadova.it?subject=${subject}&body=${body}`;
     modalBack.classList.remove('open');
     joinForm.reset();
   });
