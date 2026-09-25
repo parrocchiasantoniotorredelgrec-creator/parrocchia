@@ -260,6 +260,7 @@
   .grp-card .bar{position:absolute; left:0; top:0; bottom:0; width:4px; border-radius:4px 0 0 4px;}
   .grp-card h3{font-size:16px; padding-left:8px;}
   .grp-card p{margin:0; color:var(--ink-soft); font-size:13.6px; flex:1; padding-left:8px;}
+  a.grp-join{text-decoration:none;}
   .grp-join{
     align-self:flex-start; margin-left:8px; font-size:13.5px; font-weight:700; cursor:pointer;
     background:none; border:none; padding:2px 0; border-bottom:2px solid currentColor; font-family:'Figtree';
@@ -456,12 +457,12 @@
 
   // ---- Sacramenti ----
   const SACRAMENTI = [
-    ["Battesimo", "Accoglienza nella comunità cristiana. Incontri di preparazione per i genitori."],
-    ["Prima Comunione", "Percorso di catechismo per bambini, in preparazione al sacramento."],
-    ["Cresima", "Cammino di formazione per ragazzi e adulti verso la Confermazione."],
-    ["Confessione", "Disponibile prima delle Sante Messe o su appuntamento."],
-    ["Matrimonio", "Percorso di preparazione per le coppie che desiderano sposarsi in chiesa."],
-    ["Unzione degli infermi", "Vicinanza e conforto spirituale a chi è malato o anziano."]
+    ["Battesimo", "Il primo dei Sacramenti, che ci introduce nella vita della Chiesa. Celebrato ogni seconda e quarta domenica del mese."],
+    ["Prima Comunione", "Per la prima volta i bambini ricevono Gesù nell’Eucaristia, dopo un cammino di catechesi, preghiera e scoperta della fede."],
+    ["Cresima", "Il dono dello Spirito Santo che rafforza la fede, dopo un cammino serio di preparazione."],
+    ["Confessione", "L’incontro con la misericordia di Dio. In Parrocchia ci si può confessare 30 minuti prima di ogni Santa Messa."],
+    ["Matrimonio", "La scelta di amarsi ed essere fedeli per tutta la vita, con Dio al centro. Il primo passo è rivolgersi al parroco."],
+    ["Unzione degli infermi", "Il Sacramento con cui la Chiesa accompagna chi vive la malattia o la fragilità, con conforto, forza e speranza."]
   ];
 
   const sacrGrid = document.getElementById('sacrGrid');
@@ -474,6 +475,7 @@
       <div class="bar" style="background:${color}"></div>
       <h3>${name}</h3>
       <p>${desc}</p>
+      <a class="grp-join" style="color:${color}" href="${slugify(name, 'sac').replace('sac-', '')}.html">Scopri di più →</a>
     `;
     sacrGrid.appendChild(card);
   });
@@ -481,7 +483,7 @@
   const sacramentiDropdown = document.getElementById('sacramentiDropdown');
   SACRAMENTI.forEach(([name]) => {
     const a = document.createElement('a');
-    a.href = '#' + slugify(name, 'sac');
+    a.href = slugify(name, 'sac').replace('sac-', '') + '.html';
     a.textContent = name;
     a.addEventListener('click', () => navLinks.classList.remove('open'));
     sacramentiDropdown.appendChild(a);
