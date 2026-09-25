@@ -513,7 +513,7 @@
   const sacramentiDropdown = document.getElementById('sacramentiDropdown');
   SACRAMENTI.forEach(([name]) => {
     const a = document.createElement('a');
-    a.href = 'sacramenti.html#' + slugify(name, 'sac');
+    a.href = slugify(name, 'sac').replace('sac-', '') + '.html';
     a.textContent = name;
     a.addEventListener('click', () => navLinks.classList.remove('open'));
     sacramentiDropdown.appendChild(a);
