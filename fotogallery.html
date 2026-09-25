@@ -290,6 +290,63 @@
   }
   .modal{position:relative;}
   .form-note{font-size:12px; color:var(--ink-soft); margin-top:10px;}
+
+  /* ---------- Fotogallery ---------- */
+  nav.links a.current{color:var(--coral); border-color:var(--coral);}
+  .filters{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:28px;}
+  .filter-btn{
+    font-family:'Figtree',sans-serif; font-size:14px; font-weight:700; cursor:pointer;
+    padding:9px 18px; border-radius:999px; border:1.5px solid var(--line);
+    background:var(--card-bg); color:var(--ink-soft);
+    transition:border-color .15s ease, color .15s ease, background .15s ease;
+  }
+  .filter-btn:hover{border-color:var(--azure); color:var(--azure);}
+  .filter-btn[aria-pressed="true"]{background:var(--azure); border-color:var(--azure); color:#fff;}
+  .photo-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  @media (max-width:880px){ .photo-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:480px){ .photo-grid{gap:8px;} }
+  .photo{
+    position:relative; display:block; padding:0; border:none; cursor:zoom-in; overflow:hidden;
+    border-radius:var(--radius); background:var(--paper-2); aspect-ratio:4/3;
+  }
+  .photo img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .35s ease;}
+  .photo:hover img, .photo:focus-visible img{transform:scale(1.05);}
+  .photo:focus-visible{outline:3px solid var(--azure); outline-offset:2px;}
+  .photo .tag{
+    position:absolute; left:10px; bottom:10px; font-size:11.5px; font-weight:700;
+    padding:4px 10px; border-radius:999px; background:rgba(10,14,11,.6); color:#fff;
+  }
+  .photo[hidden]{display:none;}
+  .gallery-empty{color:var(--ink-soft); padding:30px 0;}
+  .album-cta{
+    margin-top:44px; padding:30px; border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--paper-2); display:flex; align-items:center; justify-content:space-between;
+    gap:20px; flex-wrap:wrap;
+  }
+  .album-cta h3{font-size:20px; margin-bottom:6px;}
+  .album-cta p{margin:0; color:var(--ink-soft); font-size:15px; max-width:52ch;}
+
+  /* Lightbox */
+  .lb{
+    position:fixed; inset:0; z-index:200; background:rgba(10,14,11,.92);
+    display:none; align-items:center; justify-content:center; padding:56px 16px 64px;
+  }
+  .lb.open{display:flex;}
+  .lb figure{margin:0; max-width:1100px; width:100%; text-align:center;}
+  .lb img{max-width:100%; max-height:calc(100vh - 150px); border-radius:6px; object-fit:contain;}
+  .lb figcaption{color:rgba(255,255,255,.85); font-size:14px; margin-top:12px;}
+  .lb button{
+    position:absolute; background:rgba(255,255,255,.12); border:none; color:#fff; cursor:pointer;
+    width:44px; height:44px; border-radius:50%; font-size:22px; line-height:1;
+  }
+  .lb button:hover{background:rgba(255,255,255,.28);}
+  .lb .lb-close{top:14px; right:14px;}
+  .lb .lb-prev{left:14px; top:50%; transform:translateY(-50%);}
+  .lb .lb-next{right:14px; top:50%; transform:translateY(-50%);}
+  @media (max-width:600px){
+    .lb .lb-prev, .lb .lb-next{top:auto; bottom:12px; transform:none;}
+    .lb .lb-prev{left:calc(50% - 54px);} .lb .lb-next{right:calc(50% - 54px);}
+  }
 </style>
 </head>
 <body>
@@ -317,27 +374,35 @@
         <div class="dropdown" id="sacramentiDropdown"></div>
       </div>
       <a href="index.html#avvisi">Avvisi</a>
-      <a href="fotogallery.html">Fotogallery</a>
+      <a href="fotogallery.html" class="current" aria-current="page">Fotogallery</a>
     </nav>
   </div>
 </header>
 
 <main>
-  <!-- INTRO -->
   <section style="padding-bottom:32px;">
     <div class="wrap">
       <div class="sec-head" style="max-width:70ch; margin-bottom:0;">
-        <span class="sec-tag">Comunità</span>
-        <h2 style="font-size:clamp(30px,4.4vw,46px); line-height:1.08;">I gruppi della nostra parrocchia</h2>
-        <p style="font-size:17px;">Ogni gruppo è un piccolo cammino dentro il cammino più grande della comunità: preghiera, servizio, formazione e amicizia. Scorri le schede, scegli quello più vicino a te e invia la richiesta d'iscrizione in un attimo.</p>
+        <span class="sec-tag">Momenti di comunità</span>
+        <h2 style="font-size:clamp(30px,4.4vw,46px); line-height:1.08;">Fotogallery</h2>
+        <p style="font-size:17px;">Alcuni scatti dalla vita della nostra parrocchia: feste, incontri, celebrazioni e pellegrinaggi. Filtra per categoria e clicca su una foto per ingrandirla.</p>
       </div>
     </div>
   </section>
 
-  <!-- GRIGLIA GRUPPI -->
-  <section id="gruppi" style="padding-top:0;">
+  <section id="fotogallery" style="padding-top:0;">
     <div class="wrap">
-      <div class="grp-grid" id="grpGrid"></div>
+      <div class="filters" id="filters" role="group" aria-label="Filtra le foto per categoria"></div>
+      <div class="photo-grid" id="photoGrid"></div>
+      <p class="gallery-empty" id="galleryEmpty" hidden>Nessuna foto in questa categoria.</p>
+
+      <div class="album-cta">
+        <div>
+          <h3>Vuoi vedere tutte le foto?</h3>
+          <p>L'archivio completo con tutti gli eventi della parrocchia è nel nostro album online.</p>
+        </div>
+        <a class="btn btn-solid" id="albumLink" href="#" target="_blank" rel="noopener">Apri l'album completo →</a>
+      </div>
     </div>
   </section>
 </main>
@@ -360,35 +425,15 @@
   </div>
 </footer>
 
-<!-- MODAL ISCRIZIONE -->
-<div class="modal-back" id="modalBack">
-  <div class="modal">
-    <button class="modal-close" id="modalClose" aria-label="Chiudi">✕</button>
-    <h3>Iscriviti al gruppo</h3>
-    <p class="sub" id="modalGroupName">—</p>
-    <form id="joinForm">
-      <div class="field">
-        <label for="fNome">Nome e cognome</label>
-        <input id="fNome" required placeholder="Es. Maria Esposito">
-      </div>
-      <div class="field">
-        <label for="fTel">Telefono</label>
-        <input id="fTel" required placeholder="Es. 333 1234567">
-      </div>
-      <div class="field">
-        <label for="fEmail">Email</label>
-        <input id="fEmail" type="email" placeholder="tua@email.it">
-      </div>
-      <div class="field">
-        <label for="fNote">Note (facoltativo)</label>
-        <textarea id="fNote" placeholder="Età, disponibilità, domande..."></textarea>
-      </div>
-      <div class="modal-actions">
-        <button type="submit" class="btn btn-solid" style="width:100%; justify-content:center;">Invia richiesta d'iscrizione</button>
-      </div>
-      <p class="form-note">Si aprirà la tua app di posta con i dati già compilati, pronti da inviare alla parrocchia.</p>
-    </form>
-  </div>
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto ingrandita">
+  <button class="lb-close" id="lbClose" aria-label="Chiudi">✕</button>
+  <button class="lb-prev" id="lbPrev" aria-label="Foto precedente">‹</button>
+  <button class="lb-next" id="lbNext" aria-label="Foto successiva">›</button>
+  <figure>
+    <img id="lbImg" alt="">
+    <figcaption id="lbCap"></figcaption>
+  </figure>
 </div>
 
 <script>
@@ -453,25 +498,10 @@
       .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   }
 
-  const grpGrid = document.getElementById('grpGrid');
-  GRUPPI.forEach(([name, desc], i) => {
-    const color = PALETTE[i % PALETTE.length];
-    const card = document.createElement('div');
-    card.className = 'grp-card';
-    card.id = slugify(name);
-    card.innerHTML = `
-      <div class="bar" style="background:${color}"></div>
-      <h3>${name}</h3>
-      <p>${desc}</p>
-      <button class="grp-join" style="color:${color}" data-group="${name}">Iscriviti →</button>
-    `;
-    grpGrid.appendChild(card);
-  });
-
   const dropdown = document.getElementById('gruppiDropdown');
   GRUPPI.forEach(([name]) => {
     const a = document.createElement('a');
-    a.href = '#' + slugify(name);
+    a.href = 'gruppi.html#' + slugify(name);
     a.textContent = name;
     a.addEventListener('click', () => navLinks.classList.remove('open'));
     dropdown.appendChild(a);
@@ -495,57 +525,136 @@
     sacramentiDropdown.appendChild(a);
   });
 
-  // ---- Modale di iscrizione ----
-  const modalBack = document.getElementById('modalBack');
-  const modalClose = document.getElementById('modalClose');
-  const modalGroupName = document.getElementById('modalGroupName');
-  const joinForm = document.getElementById('joinForm');
-  let currentGroup = '';
 
-  // ---- Messaggi di validazione del modulo in italiano ----
-  joinForm.querySelectorAll('input, textarea').forEach((field) => {
-    field.addEventListener('invalid', function () {
-      if (this.validity.valueMissing) {
-        this.setCustomValidity('Compila questo campo.');
-      } else if (this.type === 'email' && this.validity.typeMismatch) {
-        this.setCustomValidity('Inserisci un indirizzo email valido.');
-      } else {
-        this.setCustomValidity('');
-      }
-    });
-    field.addEventListener('input', function () {
-      this.setCustomValidity('');
-    });
+  // =====================================================================
+  //  FOTOGALLERY  —  per aggiungere una foto:
+  //  1) copia il file (meglio .webp, max ~1600 px di larghezza) nella cartella foto/
+  //  2) aggiungi una riga qui sotto: [ "nome-file", "categoria", "descrizione" ]
+  // =====================================================================
+  const CATEGORIE = {
+    feste: "Feste",
+    gruppi: "Gruppi",
+    pellegrinaggi: "Pellegrinaggi",
+    celebrazioni: "Celebrazioni"
+  };
+
+  // Link all'album completo (Google Drive o Google Photos, condiviso con "chiunque abbia il link").
+  const ALBUM_URL = "https://drive.google.com/drive/folders/1RN4Z1cdz6HUw3Yp7OoxIGQL6tUbmpoT9?usp=drive_link";
+
+  const FOTO = [
+    ["feste-01.webp", "feste", "Foto di esempio — Feste 1"],
+    ["feste-02.webp", "feste", "Foto di esempio — Feste 2"],
+    ["feste-03.webp", "feste", "Foto di esempio — Feste 3"],
+    ["gruppi-01.webp", "gruppi", "Foto di esempio — Gruppi 1"],
+    ["gruppi-02.webp", "gruppi", "Foto di esempio — Gruppi 2"],
+    ["gruppi-03.webp", "gruppi", "Foto di esempio — Gruppi 3"],
+    ["pellegrinaggi-01.webp", "pellegrinaggi", "Foto di esempio — Pellegrinaggi 1"],
+    ["pellegrinaggi-02.webp", "pellegrinaggi", "Foto di esempio — Pellegrinaggi 2"],
+    ["pellegrinaggi-03.webp", "pellegrinaggi", "Foto di esempio — Pellegrinaggi 3"],
+    ["celebrazioni-01.webp", "celebrazioni", "Foto di esempio — Celebrazioni 1"],
+    ["celebrazioni-02.webp", "celebrazioni", "Foto di esempio — Celebrazioni 2"],
+    ["celebrazioni-03.webp", "celebrazioni", "Foto di esempio — Celebrazioni 3"]
+  ];
+
+  document.getElementById('albumLink').href = ALBUM_URL;
+
+  const photoGrid = document.getElementById('photoGrid');
+  const filtersEl = document.getElementById('filters');
+  const galleryEmpty = document.getElementById('galleryEmpty');
+  let currentCat = 'tutte';
+
+  // Pulsanti filtro (solo per le categorie che hanno almeno una foto)
+  const usedCats = Object.keys(CATEGORIE).filter(c => FOTO.some(f => f[1] === c));
+  [['tutte','Tutte'], ...usedCats.map(c => [c, CATEGORIE[c]])].forEach(([key, label]) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'filter-btn';
+    b.textContent = label;
+    b.dataset.cat = key;
+    b.setAttribute('aria-pressed', key === 'tutte' ? 'true' : 'false');
+    filtersEl.appendChild(b);
   });
 
-  grpGrid.addEventListener('click', (e) => {
-    const btn = e.target.closest('.grp-join');
-    if(!btn) return;
-    currentGroup = btn.dataset.group;
-    modalGroupName.textContent = 'Gruppo: ' + currentGroup;
-    modalBack.classList.add('open');
+  // Miniature (caricamento "lazy": le immagini si scaricano solo quando servono)
+  FOTO.forEach(([file, cat, alt], i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'photo';
+    b.dataset.cat = cat;
+    b.dataset.i = i;
+    b.setAttribute('aria-label', 'Ingrandisci: ' + alt);
+    b.innerHTML = `<img src="foto/${file}" alt="${alt}" loading="lazy" decoding="async"><span class="tag">${CATEGORIE[cat] || cat}</span>`;
+    photoGrid.appendChild(b);
   });
-  modalClose.addEventListener('click', () => modalBack.classList.remove('open'));
-  modalBack.addEventListener('click', (e) => { if(e.target === modalBack) modalBack.classList.remove('open'); });
 
-  joinForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const nome = document.getElementById('fNome').value.trim();
-    const tel = document.getElementById('fTel').value.trim();
-    const email = document.getElementById('fEmail').value.trim();
-    const note = document.getElementById('fNote').value.trim();
-    const subject = encodeURIComponent('Iscrizione gruppo: ' + currentGroup);
-    const body = encodeURIComponent(
-      `Richiesta di iscrizione al gruppo: ${currentGroup}\n\n` +
-      `Nome e cognome: ${nome}\n` +
-      `Telefono: ${tel}\n` +
-      `Email: ${email || '-'}\n` +
-      `Note: ${note || '-'}\n`
-    );
-    window.location.href = `mailto:info@parrocchiasantantoniodipadova.it?subject=${subject}&body=${body}`;
-    modalBack.classList.remove('open');
-    joinForm.reset();
+  function visibleIndexes(){
+    return Array.from(photoGrid.querySelectorAll('.photo'))
+      .filter(p => !p.hidden).map(p => Number(p.dataset.i));
+  }
+
+  filtersEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    currentCat = btn.dataset.cat;
+    filtersEl.querySelectorAll('.filter-btn').forEach(x => x.setAttribute('aria-pressed', x === btn ? 'true' : 'false'));
+    photoGrid.querySelectorAll('.photo').forEach(p => { p.hidden = !(currentCat === 'tutte' || p.dataset.cat === currentCat); });
+    galleryEmpty.hidden = visibleIndexes().length > 0;
   });
+
+  // ---- Lightbox ----
+  const lb = document.getElementById('lb');
+  const lbImg = document.getElementById('lbImg');
+  const lbCap = document.getElementById('lbCap');
+  let lbPos = 0, lbList = [], lastFocus = null;
+
+  function showLb(){
+    const [file, cat, alt] = FOTO[lbList[lbPos]];
+    lbImg.src = 'foto/' + file;
+    lbImg.alt = alt;
+    lbCap.textContent = alt + '  ·  ' + (lbPos + 1) + ' / ' + lbList.length;
+  }
+  function openLb(index){
+    lbList = visibleIndexes();
+    lbPos = Math.max(0, lbList.indexOf(index));
+    lastFocus = document.activeElement;
+    showLb();
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('lbClose').focus();
+  }
+  function closeLb(){
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    lbImg.removeAttribute('src');
+    if (lastFocus) lastFocus.focus();
+  }
+  function stepLb(d){
+    lbPos = (lbPos + d + lbList.length) % lbList.length;
+    showLb();
+  }
+  photoGrid.addEventListener('click', (e) => {
+    const p = e.target.closest('.photo');
+    if (p) openLb(Number(p.dataset.i));
+  });
+  document.getElementById('lbClose').addEventListener('click', closeLb);
+  document.getElementById('lbPrev').addEventListener('click', () => stepLb(-1));
+  document.getElementById('lbNext').addEventListener('click', () => stepLb(1));
+  lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') stepLb(-1);
+    if (e.key === 'ArrowRight') stepLb(1);
+  });
+  // Swipe su mobile
+  let touchX = null;
+  lb.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, {passive:true});
+  lb.addEventListener('touchend', (e) => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) stepLb(dx < 0 ? 1 : -1);
+    touchX = null;
+  }, {passive:true});
 
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
