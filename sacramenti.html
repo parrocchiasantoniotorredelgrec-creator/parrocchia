@@ -98,7 +98,10 @@
     font-weight:600; color:var(--ink); text-decoration:none; border-bottom:none !important; white-space:nowrap;
   }
   .dropdown a:hover{background:var(--paper-2); color:var(--coral);}
-  .nav-item:hover .dropdown, .nav-item:focus-within .dropdown{display:block;}
+  .sub-toggle{display:none;}
+  @media (min-width:881px){
+    .nav-item:hover .dropdown, .nav-item:focus-within .dropdown{display:block;}
+  }
   .nav-item::before{ content:""; position:absolute; top:100%; left:0; right:0; height:12px; }
 
   @media (max-width: 880px){
@@ -112,8 +115,22 @@
     nav.links.open{transform:translateY(0); opacity:1; pointer-events:auto;}
     nav.links a{padding:12px 4px; border-bottom:1px solid var(--line);}
     .burger{display:block;}
-    .nav-item > a::after{transition:transform .18s ease;}
-    .nav-item.open > a::after{transform:rotate(180deg);}
+    .nav-item{display:flex; flex-wrap:wrap; align-items:stretch;}
+    .nav-item::before{display:none;}
+    .nav-item > a{flex:1 1 0; min-width:0;}
+    .nav-item > a::after{display:none;}
+    .sub-toggle{
+      display:block; flex:0 0 52px; background:none; border:none; border-bottom:1px solid var(--line);
+      cursor:pointer; position:relative; padding:0; color:var(--ink-soft);
+    }
+    .sub-toggle::before{
+      content:""; position:absolute; left:50%; top:50%; width:9px; height:9px;
+      border-right:2px solid currentColor; border-bottom:2px solid currentColor;
+      transform:translate(-50%,-70%) rotate(45deg); transition:transform .18s ease;
+    }
+    .nav-item.open > .sub-toggle::before{transform:translate(-50%,-30%) rotate(-135deg);}
+    .sub-toggle{-webkit-tap-highlight-color:transparent;}
+    .dropdown{flex:0 0 100%;}
     .dropdown{
       display:none; position:static; transform:none; border:none; box-shadow:none;
       padding:0 0 6px 14px; min-width:0;
@@ -368,25 +385,32 @@
   const burger = document.getElementById('burger');
   const navLinks = document.getElementById('navLinks');
   const navItems = Array.from(document.querySelectorAll('.nav-item'));
-  const navItemToggles = navItems.map(item => item.querySelector('a'));
+  const navItemToggles = [];
 
   burger.addEventListener('click', () => {
     navLinks.classList.toggle('open');
     if (!navLinks.classList.contains('open')) navItems.forEach(item => item.classList.remove('open'));
   });
 
-  // Su mobile il tap sulla voce principale (Gruppi/Sacramenti) apre/chiude il proprio sottomenu
-  // invece di navigare subito; su desktop il link funziona normalmente (il sottomenu si apre
-  // gia al passaggio del mouse). Aprirne uno chiude automaticamente l'altro.
+  // Su mobile ogni voce con sottomenu ha una freccetta separata: il tap sul nome apre la pagina,
+  // il tap sulla freccetta apre/chiude il sottomenu (aprirne uno chiude l'altro).
   navItems.forEach((item) => {
-    const toggle = item.querySelector('a');
-    toggle.addEventListener('click', (e) => {
-      if (window.matchMedia('(max-width: 880px)').matches) {
-        e.preventDefault();
-        const wasOpen = item.classList.contains('open');
-        navItems.forEach(other => other.classList.remove('open'));
-        item.classList.toggle('open', !wasOpen);
-      }
+    const link = item.querySelector('a');
+    const dd = item.querySelector('.dropdown');
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'sub-toggle';
+    toggle.setAttribute('aria-label', 'Mostra o nascondi il sottomenu ' + link.textContent.trim());
+    toggle.setAttribute('aria-expanded', 'false');
+    link.after(toggle);
+    toggle.addEventListener('click', () => {
+      const willOpen = !item.classList.contains('open');
+      navItems.forEach(other => {
+        other.classList.remove('open');
+        other.querySelector('.sub-toggle').setAttribute('aria-expanded', 'false');
+      });
+      item.classList.toggle('open', willOpen);
+      toggle.setAttribute('aria-expanded', String(willOpen));
     });
   });
 
