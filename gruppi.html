@@ -486,7 +486,7 @@
     ["Scout", "Il Gruppo Scout Torre del Greco 4: un percorso educativo per ragazze e ragazzi dagli 8 ai 21 anni.", "scout"],
     ["Ministranti", "Servono all’altare e animano le celebrazioni della comunità da oltre 50 anni.", "ministranti"],
     ["GiFra", "Gioventù Francescana: la parte più giovane della famiglia francescana, dai 13 ai 30 anni.", "gifra"],
-    ["Catechisti", "Il cammino catechistico che accompagna bambini e ragazzi dagli 8 ai 12 anni verso i sacramenti.", "catechisti"],
+    ["Catechismo", "Il cammino catechistico che accompagna bambini e ragazzi dagli 8 ai 12 anni verso i sacramenti.", "catechisti"],
     ["O.F.S. — Ordine Francescano Secolare", "Laici che vivono il Vangelo nel proprio stato secolare, alla maniera di San Francesco d’Assisi.", "ofs"],
     ["Gruppo Lettori", "Circa 60 lettori che proclamano la Parola di Dio durante le Sante Messe.", "lettori"],
     ["Corale Parrocchiale", "Anima con il canto le celebrazioni liturgiche della parrocchia da trent’anni.", "corale-parrocchiale"],
@@ -580,7 +580,7 @@
     const btn = e.target.closest('.grp-join');
     if(!btn) return;
     currentGroup = btn.dataset.group;
-    if (currentGroup === 'Catechisti') {
+    if (currentGroup === 'Catechismo') {
       modalTitle.textContent = 'Iscrizione al catechismo';
       modalGroupName.textContent = '';
       joinForm.style.display = 'none';
