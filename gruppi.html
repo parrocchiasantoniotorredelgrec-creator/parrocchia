@@ -260,6 +260,8 @@
   .grp-card .bar{position:absolute; left:0; top:0; bottom:0; width:4px; border-radius:4px 0 0 4px;}
   .grp-card h3{font-size:16px; padding-left:8px;}
   .grp-card p{margin:0; color:var(--ink-soft); font-size:13.6px; flex:1; padding-left:8px;}
+  .grp-actions{display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:auto; padding-left:8px;}
+  a.grp-join{text-decoration:none;}
   .grp-join{
     align-self:flex-start; margin-left:8px; font-size:13.5px; font-weight:700; cursor:pointer;
     background:none; border:none; padding:2px 0; border-bottom:2px solid currentColor; font-family:'Figtree';
@@ -455,20 +457,24 @@
 
   // ---- Gruppi ----
   const GRUPPI = [
-    ["Catechismo", "Cammino di formazione cristiana per bambini e ragazzi verso i sacramenti."],
-    ["Caritas", "Ascolto e sostegno concreto per le persone e le famiglie in difficoltà."],
-    ["Corali", "Anima con il canto le celebrazioni liturgiche della parrocchia."],
-    ["O.F.S. — Ordine Francescano Secolare", "Laici che vivono il Vangelo secondo lo spirito di San Francesco."],
-    ["GiFra — Gioventù Francescana", "Cammino di fede per giovani ispirato alla spiritualità francescana."],
-    ["Araldini", "Il primo passo del cammino francescano, per i più piccoli della comunità."],
-    ["AGESCI", "Associazione scout cattolica per bambini, ragazzi e giovani."],
-    ["M.A.S.C.I.", "Movimento Adulti Scout Cattolici Italiani: fede e servizio in età adulta."],
-    ["Ministranti", "Servono all'altare durante le celebrazioni eucaristiche."],
-    ["Chiamami per Nome", "Un gruppo di accoglienza e vicinanza alle persone della comunità."],
-    ["Figli della Luce", "Incontri settimanali di preghiera, lode e ascolto della Parola."],
-    ["Rinnovamento nello Spirito", "Gruppo di preghiera carismatica aperto a tutta la comunità."],
-    ["Gruppo Lettori", "Proclamano la Parola di Dio durante le Sante Messe."],
-    ["Apostolato della Preghiera", "Comunità di preghiera per le intenzioni del Santo Padre e della Chiesa."]
+    ["Rete Mondiale di Preghiera", "Il cammino di preghiera per le intenzioni del Papa e della Chiesa, nella spiritualità del Cuore di Gesù.", "rete-mondiale-di-preghiera"],
+    ["Rinnovamento nello Spirito", "La comunità «Gesù è amore»: preghiera di lode, adorazione e momenti di formazione carismatica.", "rinnovamento-nello-spirito"],
+    ["MASCI", "Comunità di servizio attiva tutto l’anno, con particolare attenzione alla mensa del sabato.", "masci"],
+    ["Scout", "Il Gruppo Scout Torre del Greco 4: un percorso educativo per ragazze e ragazzi dagli 8 ai 21 anni.", "scout"],
+    ["Ministranti", "Servono all’altare e animano le celebrazioni della comunità da oltre 50 anni.", "ministranti"],
+    ["GiFra", "Gioventù Francescana: la parte più giovane della famiglia francescana, dai 13 ai 30 anni.", "gifra"],
+    ["Catechisti", "Il cammino catechistico che accompagna bambini e ragazzi dagli 8 ai 12 anni verso i sacramenti.", "catechisti"],
+    ["O.F.S. — Ordine Francescano Secolare", "Laici che vivono il Vangelo nel proprio stato secolare, alla maniera di San Francesco d’Assisi.", "ofs"],
+    ["Gruppo Lettori", "Circa 60 lettori che proclamano la Parola di Dio durante le Sante Messe.", "lettori"],
+    ["Corale Parrocchiale", "Anima con il canto le celebrazioni liturgiche della parrocchia da trent’anni.", "corale-parrocchiale"],
+    ["Chiamami per Nome", "Sostegno concreto a famiglie e ragazzi con disabilità, con laboratori, sport e un centro diurno.", "chiamami-per-nome"],
+    ["Caritas Parrocchiale", "Ascolto, distribuzione di beni di prima necessità e sostegno a chi attraversa un momento di difficoltà.", "caritas-parrocchiale"],
+    ["Mensa Parrocchiale", "Un pasto caldo e un momento di ascolto fraterno, tutti i giorni dell’anno, dal 1990.", "mensa-parrocchiale"],
+    ["Decoro del Tempio", "La cura della chiesa, ogni lunedì mattina: basta un po’ di tempo e buona volontà.", "decoro-del-tempio"],
+    ["Oratorio", "Uno spazio aperto a tutti: studio, incontro, balli di gruppo e il Campo Estivo per i più piccoli.", "oratorio"],
+    ["Figli nella Luce", "Un gruppo di genitori che, nella preghiera, custodisce il ricordo dei propri figli scomparsi.", "figli-nella-luce"],
+    ["Ministri Straordinari dell’Eucaristia", "Portano la Comunione agli ammalati e a chi non può partecipare alla Santa Messa.", "ministri-straordinari-eucaristia"],
+    ["Araldini", "I più piccoli della Famiglia Francescana: gioco, fraternità e preghiera, dai 6 ai 13 anni.", "araldini"]
   ];
 
   function slugify(name, prefix){
@@ -478,7 +484,7 @@
   }
 
   const grpGrid = document.getElementById('grpGrid');
-  GRUPPI.forEach(([name, desc], i) => {
+  GRUPPI.forEach(([name, desc, file], i) => {
     const color = PALETTE[i % PALETTE.length];
     const card = document.createElement('div');
     card.className = 'grp-card';
@@ -487,15 +493,18 @@
       <div class="bar" style="background:${color}"></div>
       <h3>${name}</h3>
       <p>${desc}</p>
-      <button class="grp-join" style="color:${color}" data-group="${name}">Iscriviti →</button>
+      <div class="grp-actions">
+        <a class="grp-join" style="color:${color}" href="${file}.html">Scopri di più →</a>
+        <button class="grp-join" style="color:${color}" data-group="${name}">Iscriviti →</button>
+      </div>
     `;
     grpGrid.appendChild(card);
   });
 
   const dropdown = document.getElementById('gruppiDropdown');
-  GRUPPI.forEach(([name]) => {
+  GRUPPI.forEach(([name, desc, file]) => {
     const a = document.createElement('a');
-    a.href = '#' + slugify(name);
+    a.href = file + '.html';
     a.textContent = name;
     a.addEventListener('click', () => navLinks.classList.remove('open'));
     dropdown.appendChild(a);

@@ -260,6 +260,7 @@
   .grp-card .bar{position:absolute; left:0; top:0; bottom:0; width:4px; border-radius:4px 0 0 4px;}
   .grp-card h3{font-size:16px; padding-left:8px;}
   .grp-card p{margin:0; color:var(--ink-soft); font-size:13.6px; flex:1; padding-left:8px;}
+  a.grp-join{text-decoration:none;}
   .grp-join{
     align-self:flex-start; margin-left:8px; font-size:13.5px; font-weight:700; cursor:pointer;
     background:none; border:none; padding:2px 0; border-bottom:2px solid currentColor; font-family:'Figtree';
@@ -433,7 +434,7 @@
         </div>
         <a class="btn btn-solid" href="index.html#contatti">Contatta la parrocchia →</a>
       </div>
-      <div class="others"><h3>Altri sacramenti</h3><div class="chips"><a class="chip" href="battesimo.html">Battesimo</a><a class="chip" href="prima-comunione.html">Prima Comunione</a><a class="chip" href="cresima.html" aria-current="page">Cresima</a><a class="chip" href="confessione.html">Confessione</a><a class="chip" href="matrimonio.html">Matrimonio</a><a class="chip" href="unzione-degli-infermi.html">Unzione degli infermi</a></div></div>
+      <div class="others"><h3>Altri sacramenti</h3><div class="chips"><a class="chip" href="battesimo.html">Battesimo</a><a class="chip" href="prima-comunione.html">Prima Comunione</a><a class="chip" href="confessione.html">Confessione</a><a class="chip" href="matrimonio.html">Matrimonio</a><a class="chip" href="unzione-degli-infermi.html">Unzione degli infermi</a></div></div>
     </div>
   </section>
 </main>
@@ -507,27 +508,13 @@
       .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   }
 
-  // ---- Gruppi: voci del menu a tendina (le schede vivono in gruppi.html) ----
-  const GRUPPI = [
-    ["Catechismo", "Cammino di formazione cristiana per bambini e ragazzi verso i sacramenti."],
-    ["Caritas", "Ascolto e sostegno concreto per le persone e le famiglie in difficoltà."],
-    ["Corali", "Anima con il canto le celebrazioni liturgiche della parrocchia."],
-    ["O.F.S. — Ordine Francescano Secolare", "Laici che vivono il Vangelo secondo lo spirito di San Francesco."],
-    ["GiFra — Gioventù Francescana", "Cammino di fede per giovani ispirato alla spiritualità francescana."],
-    ["Araldini", "Il primo passo del cammino francescano, per i più piccoli della comunità."],
-    ["AGESCI", "Associazione scout cattolica per bambini, ragazzi e giovani."],
-    ["M.A.S.C.I.", "Movimento Adulti Scout Cattolici Italiani: fede e servizio in età adulta."],
-    ["Ministranti", "Servono all'altare durante le celebrazioni eucaristiche."],
-    ["Chiamami per Nome", "Un gruppo di accoglienza e vicinanza alle persone della comunità."],
-    ["Figli della Luce", "Incontri settimanali di preghiera, lode e ascolto della Parola."],
-    ["Rinnovamento nello Spirito", "Gruppo di preghiera carismatica aperto a tutta la comunità."],
-    ["Gruppo Lettori", "Proclamano la Parola di Dio durante le Sante Messe."],
-    ["Apostolato della Preghiera", "Comunità di preghiera per le intenzioni del Santo Padre e della Chiesa."]
-  ];
+  // ---- Gruppi: voci del menu a tendina ----
+  const GRUPPI = ["Rete Mondiale di Preghiera", "Rinnovamento nello Spirito", "MASCI", "Scout", "Ministranti", "GiFra", "Catechisti", "O.F.S. — Ordine Francescano Secolare", "Gruppo Lettori", "Corale Parrocchiale", "Chiamami per Nome", "Caritas Parrocchiale", "Mensa Parrocchiale", "Decoro del Tempio", "Oratorio", "Figli nella Luce", "Ministri Straordinari dell’Eucaristia", "Araldini"];
+  const GRUPPI_FILES = ["rete-mondiale-di-preghiera", "rinnovamento-nello-spirito", "masci", "scout", "ministranti", "gifra", "catechisti", "ofs", "lettori", "corale-parrocchiale", "chiamami-per-nome", "caritas-parrocchiale", "mensa-parrocchiale", "decoro-del-tempio", "oratorio", "figli-nella-luce", "ministri-straordinari-eucaristia", "araldini"];
   const gruppiDropdown = document.getElementById('gruppiDropdown');
-  GRUPPI.forEach(([name]) => {
+  GRUPPI.forEach((name, i) => {
     const a = document.createElement('a');
-    a.href = 'gruppi.html#' + slugify(name);
+    a.href = GRUPPI_FILES[i] + '.html';
     a.textContent = name;
     a.addEventListener('click', () => navLinks.classList.remove('open'));
     gruppiDropdown.appendChild(a);

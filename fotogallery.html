@@ -498,34 +498,18 @@
     });
   });
 
-  // ---- Gruppi ----
-  const GRUPPI = [
-    ["Catechismo", "Cammino di formazione cristiana per bambini e ragazzi verso i sacramenti."],
-    ["Caritas", "Ascolto e sostegno concreto per le persone e le famiglie in difficoltà."],
-    ["Corali", "Anima con il canto le celebrazioni liturgiche della parrocchia."],
-    ["O.F.S. — Ordine Francescano Secolare", "Laici che vivono il Vangelo secondo lo spirito di San Francesco."],
-    ["GiFra — Gioventù Francescana", "Cammino di fede per giovani ispirato alla spiritualità francescana."],
-    ["Araldini", "Il primo passo del cammino francescano, per i più piccoli della comunità."],
-    ["AGESCI", "Associazione scout cattolica per bambini, ragazzi e giovani."],
-    ["M.A.S.C.I.", "Movimento Adulti Scout Cattolici Italiani: fede e servizio in età adulta."],
-    ["Ministranti", "Servono all'altare durante le celebrazioni eucaristiche."],
-    ["Chiamami per Nome", "Un gruppo di accoglienza e vicinanza alle persone della comunità."],
-    ["Figli della Luce", "Incontri settimanali di preghiera, lode e ascolto della Parola."],
-    ["Rinnovamento nello Spirito", "Gruppo di preghiera carismatica aperto a tutta la comunità."],
-    ["Gruppo Lettori", "Proclamano la Parola di Dio durante le Sante Messe."],
-    ["Apostolato della Preghiera", "Comunità di preghiera per le intenzioni del Santo Padre e della Chiesa."]
-  ];
-
+  // ---- Gruppi: voci del menu a tendina ----
   function slugify(name, prefix){
     return (prefix || 'grp') + '-' + name.toLowerCase()
       .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
       .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   }
-
+  const GRUPPI = ["Rete Mondiale di Preghiera", "Rinnovamento nello Spirito", "MASCI", "Scout", "Ministranti", "GiFra", "Catechisti", "O.F.S. — Ordine Francescano Secolare", "Gruppo Lettori", "Corale Parrocchiale", "Chiamami per Nome", "Caritas Parrocchiale", "Mensa Parrocchiale", "Decoro del Tempio", "Oratorio", "Figli nella Luce", "Ministri Straordinari dell’Eucaristia", "Araldini"];
+  const GRUPPI_FILES = ["rete-mondiale-di-preghiera", "rinnovamento-nello-spirito", "masci", "scout", "ministranti", "gifra", "catechisti", "ofs", "lettori", "corale-parrocchiale", "chiamami-per-nome", "caritas-parrocchiale", "mensa-parrocchiale", "decoro-del-tempio", "oratorio", "figli-nella-luce", "ministri-straordinari-eucaristia", "araldini"];
   const dropdown = document.getElementById('gruppiDropdown');
-  GRUPPI.forEach(([name]) => {
+  GRUPPI.forEach((name, i) => {
     const a = document.createElement('a');
-    a.href = 'gruppi.html#' + slugify(name);
+    a.href = GRUPPI_FILES[i] + '.html';
     a.textContent = name;
     a.addEventListener('click', () => navLinks.classList.remove('open'));
     dropdown.appendChild(a);

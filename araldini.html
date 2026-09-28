@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Battesimo — Parrocchia S. Antonio di Padova</title>
+<title>Araldini — Parrocchia S. Antonio di Padova</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -356,6 +356,32 @@
   }
   .chip:hover{border-color:var(--azure); color:var(--azure);}
   .chip[aria-current="page"]{background:var(--azure); border-color:var(--azure); color:#fff;}
+
+  nav.links a.current{color:var(--coral); border-color:var(--coral);}
+  .back-link{display:inline-block; font-size:14px; font-weight:700; text-decoration:none; color:var(--azure); margin-bottom:18px;}
+  .back-link:hover{color:var(--coral);}
+  .sac-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:48px; align-items:start;}
+  @media (max-width:880px){ .sac-grid{grid-template-columns:1fr; gap:28px;} }
+  .sac-grid p{color:var(--ink-soft); font-size:16.5px; line-height:1.7; margin:0 0 16px;}
+  .sac-grid p.lede{color:var(--ink); font-size:19px; line-height:1.6;}
+  .sac-grid .info-card{position:sticky; top:96px;}
+  @media (max-width:880px){ .sac-grid .info-card{position:static;} }
+  .sac-cta{
+    margin-top:48px; padding:28px; border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--paper-2); display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  }
+  .sac-cta h3{font-size:20px; margin-bottom:6px;}
+  .sac-cta p{margin:0; color:var(--ink-soft); font-size:15px; max-width:52ch;}
+  .others{margin-top:40px;}
+  .others h3{font-size:15px; margin-bottom:12px; color:var(--ink-soft); font-family:'Figtree',sans-serif; font-weight:700;}
+  .chips{display:flex; flex-wrap:wrap; gap:10px;}
+  .chip{
+    font-size:14px; font-weight:700; padding:9px 16px; border-radius:999px; text-decoration:none;
+    border:1.5px solid var(--line); background:var(--card-bg); color:var(--ink-soft);
+  }
+  .chip:hover{border-color:var(--azure); color:var(--azure);}
+  .grp-actions{display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:auto; padding-left:8px;}
+  a.grp-join{text-decoration:none;}
 </style>
 </head>
 <body>
@@ -375,7 +401,7 @@
     <nav class="links" id="navLinks">
       <a href="index.html#parrocchia">Parrocchia</a>
       <div class="nav-item" id="gruppiNavItem">
-        <a href="gruppi.html">Gruppi</a>
+        <a href="gruppi.html" class="current">Gruppi</a>
         <div class="dropdown" id="gruppiDropdown"></div>
       </div>
       <div class="nav-item" id="sacramentiNavItem">
@@ -391,10 +417,10 @@
 <main>
   <section style="padding-bottom:40px;">
     <div class="wrap">
-      <a class="back-link" href="sacramenti.html">← Tutti i sacramenti</a>
+      <a class="back-link" href="gruppi.html">← Tutti i gruppi</a>
       <div class="sec-head" style="max-width:70ch; margin-bottom:0;">
-        <span class="sec-tag">Sacramento</span>
-        <h1 style="font-size:clamp(32px,5vw,52px); line-height:1.06;">Battesimo</h1>
+        <span class="sec-tag">Gruppo parrocchiale</span>
+        <h1 style="font-size:clamp(32px,5vw,52px); line-height:1.06;">Araldini</h1>
       </div>
     </div>
   </section>
@@ -402,39 +428,22 @@
     <div class="wrap">
       <div class="sac-grid">
         <div>
-          <p class="lede">Il Battesimo è il primo dei Sacramenti e introduce il cristiano nella vita della Chiesa. È il segno dell’amore di Dio che ci accoglie come suoi figli e ci dona una vita nuova in Cristo.</p>
-          <p>Nella nostra Parrocchia i Battesimi vengono celebrati ogni seconda e quarta domenica del mese.</p><p>Per concordare la data è necessario rivolgersi al Parroco, che riceve in ufficio parrocchiale nei giorni prestabiliti.</p><p>È inoltre necessario partecipare a un incontro di preparazione al Sacramento, la cui data verrà concordata direttamente con il Parroco.</p>
+          <p class="lede">Gli Araldini sono i più piccoli della Famiglia Francescana: un gruppo dedicato ai bambini dai 6 ai 13 anni. Al compimento dei 13 anni si aprirà per loro un nuovo cammino, quello della GiFra.</p>
+          <p>Ci incontriamo ogni sabato, vivendo insieme momenti di fraternità, gioco e preghiera, per imparare a conoscere e vivere lo stile di San Francesco. Anche quest’anno saranno diversi gli appuntamenti che accompagneranno il nostro cammino: in particolare vivremo la Promessa dell’Araldino, che celebriamo tradizionalmente in occasione della Festa di Cristo Re, e parteciperemo alla Festa Regionale dell’«Eccomi».</p><p>A prendersi cura degli Araldini sono gli animatori, giovani della GiFra e fratelli e sorelle dell’OFS, chiamati ad accompagnare i più piccoli con attenzione, gioia e responsabilità.</p>
         </div>
         <aside class="info-card">
           <h3>In pratica</h3>
-          <div class="info-line"><span>Quando</span><span>Ogni seconda e quarta domenica del mese</span></div><div class="info-line"><span>Data</span><span>Da concordare con il Parroco</span></div><div class="info-line"><span>Preparazione</span><span>Incontro con il Parroco</span></div>
+          <div class="info-line"><span>Età</span><span>6-13 anni</span></div><div class="info-line"><span>Incontri</span><span>Ogni sabato</span></div>
         </aside>
       </div>
-      <div class="acc-wrap"><details class="acc"><summary>Padrino e madrina: la scelta e le condizioni</summary><div class="acc-body">
-<p>Il padrino ha un compito ecclesiale in quanto “egli amplia, in senso spirituale, la famiglia del battezzando e rappresenta la Chiesa nel suo compito di madre”.</p>
-<p>In origine era scelto dalla comunità cristiana e dato come fratello maggiore al nuovo battezzato o cresimato perché questi non fosse abbandonato a se stesso. Egli aveva il compito di aiutarlo a discernere la volontà di Dio nelle sue scelte e decisioni, di incoraggiarlo nelle difficoltà che la fede ancora giovane avrebbe potuto incontrare.</p>
-<p>I padrini o le madrine sono, come i catechisti, degli accompagnatori e modelli di riferimento per i ragazzi e le ragazze: non sono delle comparse cerimoniali per un momento. Con la loro vita ci presentano un po’ di fede, di speranza e di carità, che sono il frutto dello Spirito in noi, sia durante il cammino dell’iniziazione cristiana (battesimo-eucaristia-cresima) che nel successivo dispiegarsi della vita. Il compito del padrino o della madrina durerà quindi per sempre, attraverso una coerente vita cristiana, con la preghiera e il consiglio.</p>
-<p>Alla cresima il padrino o la madrina appoggia la sua mano destra sulla spalla destra del cresimando: è il partecipare all’imposizione delle mani del vescovo, il tipico gesto che viene trasmesso dallo Spirito Santo. Questo gesto è anche segno di guida per il passato e per il futuro. Indica anche accompagnamento, amicizia, solidarietà.</p>
-<p>È bene che il padrino sia scelto in base all’aiuto che può dare con la sua testimonianza nella fede e con l’accompagnamento nella vita.</p>
-<h4>Condizioni per poter fare da padrino e/o madrina</h4>
-<p class="small">(cfr. can. 874 Codice di Diritto Canonico)</p>
-<ul>
-<li>sia adatto a svolgere questo incarico e abbia intenzione di esercitarlo con impegno;</li>
-<li>abbia compiuto i 16 anni;</li>
-<li>sia cattolico/a e abbia già ricevuto il Battesimo, la Cresima e l’Eucaristia;</li>
-<li>non sia stato condannato con qualche pena da parte della Chiesa;</li>
-<li>conduca una vita conforme alla fede e all’incarico che assume.</li>
-</ul>
-<p>Ricordiamo che non è ammesso all’incarico chi vive in situazione matrimoniale oggettivamente irregolare (divorziato/a – risposato/a, convivente, sposato/a solo civilmente, divorziato dopo matrimonio religioso e conviventi e/o risposati civilmente).</p>
-</div></details></div>
       <div class="sac-cta">
         <div>
-          <h3>Hai bisogno di informazioni?</h3>
-          <p>Per appuntamenti e chiarimenti puoi rivolgerti al Parroco in ufficio parrocchiale.</p>
+          <h3>Vuoi far parte di questo gruppo?</h3>
+          <p>Iscriviti: la parrocchia riceverà una richiesta con i tuoi dati e ti ricontatterà.</p>
         </div>
-        <a class="btn btn-solid" href="index.html#contatti">Contatta la parrocchia →</a>
+        <button type="button" class="btn btn-solid" id="joinBtn">Iscriviti →</button>
       </div>
-      <div class="others"><h3>Altri sacramenti</h3><div class="chips"><a class="chip" href="prima-comunione.html">Prima Comunione</a><a class="chip" href="cresima.html">Cresima</a><a class="chip" href="confessione.html">Confessione</a><a class="chip" href="matrimonio.html">Matrimonio</a><a class="chip" href="unzione-degli-infermi.html">Unzione degli infermi</a></div></div>
+      <div class="others"><h3>Altri gruppi</h3><div class="chips"><a class="chip" href="rete-mondiale-di-preghiera.html">Rete Mondiale di Preghiera</a><a class="chip" href="rinnovamento-nello-spirito.html">Rinnovamento nello Spirito</a><a class="chip" href="masci.html">MASCI</a><a class="chip" href="scout.html">Scout</a><a class="chip" href="ministranti.html">Ministranti</a><a class="chip" href="gifra.html">GiFra</a><a class="chip" href="catechisti.html">Catechisti</a><a class="chip" href="ofs.html">O.F.S. — Ordine Francescano Secolare</a><a class="chip" href="lettori.html">Gruppo Lettori</a><a class="chip" href="corale-parrocchiale.html">Corale Parrocchiale</a><a class="chip" href="chiamami-per-nome.html">Chiamami per Nome</a><a class="chip" href="caritas-parrocchiale.html">Caritas Parrocchiale</a><a class="chip" href="mensa-parrocchiale.html">Mensa Parrocchiale</a><a class="chip" href="decoro-del-tempio.html">Decoro del Tempio</a><a class="chip" href="oratorio.html">Oratorio</a><a class="chip" href="figli-nella-luce.html">Figli nella Luce</a><a class="chip" href="ministri-straordinari-eucaristia.html">Ministri Straordinari dell’Eucaristia</a></div></div>
     </div>
   </section>
 </main>
@@ -456,6 +465,37 @@
     <span>© <span id="year"></span> — sito realizzato per la comunità parrocchiale</span>
   </div>
 </footer>
+
+<!-- MODAL ISCRIZIONE -->
+<div class="modal-back" id="modalBack">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Chiudi">✕</button>
+    <h3>Iscriviti al gruppo</h3>
+    <p class="sub" id="modalGroupName">—</p>
+    <form id="joinForm">
+      <div class="field">
+        <label for="fNome">Nome e cognome</label>
+        <input id="fNome" required placeholder="Es. Maria Esposito">
+      </div>
+      <div class="field">
+        <label for="fTel">Telefono</label>
+        <input id="fTel" required placeholder="Es. 333 1234567">
+      </div>
+      <div class="field">
+        <label for="fEmail">Email</label>
+        <input id="fEmail" type="email" placeholder="tua@email.it">
+      </div>
+      <div class="field">
+        <label for="fNote">Note (facoltativo)</label>
+        <textarea id="fNote" placeholder="Età, disponibilità, domande..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-solid" style="width:100%; justify-content:center;">Invia richiesta d'iscrizione</button>
+      </div>
+      <p class="form-note">Si aprirà la tua app di posta con i dati già compilati, pronti da inviare alla parrocchia.</p>
+    </form>
+  </div>
+</div>
 
 <script>
   // ---- Colori per gli accenti delle schede ----
@@ -510,8 +550,8 @@
 
   // ---- Gruppi: voci del menu a tendina ----
   const GRUPPI = ["Rete Mondiale di Preghiera", "Rinnovamento nello Spirito", "MASCI", "Scout", "Ministranti", "GiFra", "Catechisti", "O.F.S. — Ordine Francescano Secolare", "Gruppo Lettori", "Corale Parrocchiale", "Chiamami per Nome", "Caritas Parrocchiale", "Mensa Parrocchiale", "Decoro del Tempio", "Oratorio", "Figli nella Luce", "Ministri Straordinari dell’Eucaristia", "Araldini"];
-  const GRUPPI_FILES = ["rete-mondiale-di-preghiera", "rinnovamento-nello-spirito", "masci", "scout", "ministranti", "gifra", "catechisti", "ofs", "lettori", "corale-parrocchiale", "chiamami-per-nome", "caritas-parrocchiale", "mensa-parrocchiale", "decoro-del-tempio", "oratorio", "figli-nella-luce", "ministri-straordinari-eucaristia", "araldini"];
   const gruppiDropdown = document.getElementById('gruppiDropdown');
+  const GRUPPI_FILES = ["rete-mondiale-di-preghiera", "rinnovamento-nello-spirito", "masci", "scout", "ministranti", "gifra", "catechisti", "ofs", "lettori", "corale-parrocchiale", "chiamami-per-nome", "caritas-parrocchiale", "mensa-parrocchiale", "decoro-del-tempio", "oratorio", "figli-nella-luce", "ministri-straordinari-eucaristia", "araldini"];
   GRUPPI.forEach((name, i) => {
     const a = document.createElement('a');
     a.href = GRUPPI_FILES[i] + '.html';
@@ -521,14 +561,61 @@
   });
 
   // ---- Sacramenti: voci del menu a tendina ----
-  const SACRAMENTI = ["Battesimo","Prima Comunione","Cresima","Confessione","Matrimonio","Unzione degli infermi"];
+  const SACRAMENTI_LIST = [["Battesimo","battesimo"],["Prima Comunione","prima-comunione"],["Cresima","cresima"],["Confessione","confessione"],["Matrimonio","matrimonio"],["Unzione degli infermi","unzione-degli-infermi"]];
   const sacramentiDropdown = document.getElementById('sacramentiDropdown');
-  SACRAMENTI.forEach((name) => {
+  SACRAMENTI_LIST.forEach(([name, file]) => {
     const a = document.createElement('a');
-    a.href = slugify(name, 'sac').replace('sac-', '') + '.html';
+    a.href = file + '.html';
     a.textContent = name;
     a.addEventListener('click', () => navLinks.classList.remove('open'));
     sacramentiDropdown.appendChild(a);
+  });
+
+  // ---- Modale di iscrizione ----
+  const modalBack = document.getElementById('modalBack');
+  const modalClose = document.getElementById('modalClose');
+  const modalGroupName = document.getElementById('modalGroupName');
+  const joinForm = document.getElementById('joinForm');
+  let currentGroup = '';
+
+  joinForm.querySelectorAll('input, textarea').forEach((field) => {
+    field.addEventListener('invalid', function () {
+      if (this.validity.valueMissing) {
+        this.setCustomValidity('Compila questo campo.');
+      } else if (this.type === 'email' && this.validity.typeMismatch) {
+        this.setCustomValidity('Inserisci un indirizzo email valido.');
+      } else {
+        this.setCustomValidity('');
+      }
+    });
+    field.addEventListener('input', function () {
+      this.setCustomValidity('');
+    });
+  });
+
+  currentGroup = 'Araldini';
+  modalGroupName.textContent = 'Gruppo: ' + currentGroup;
+  document.getElementById('joinBtn').addEventListener('click', () => modalBack.classList.add('open'));
+  modalClose.addEventListener('click', () => modalBack.classList.remove('open'));
+  modalBack.addEventListener('click', (e) => { if(e.target === modalBack) modalBack.classList.remove('open'); });
+
+  joinForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nome = document.getElementById('fNome').value.trim();
+    const tel = document.getElementById('fTel').value.trim();
+    const email = document.getElementById('fEmail').value.trim();
+    const note = document.getElementById('fNote').value.trim();
+    const subject = encodeURIComponent('Iscrizione gruppo: ' + currentGroup);
+    const body = encodeURIComponent(
+      `Richiesta di iscrizione al gruppo: ${currentGroup}\n\n` +
+      `Nome e cognome: ${nome}\n` +
+      `Telefono: ${tel}\n` +
+      `Email: ${email || '-'}\n` +
+      `Note: ${note || '-'}\n`
+    );
+    window.location.href = `mailto:info@parrocchiasantantoniodipadova.it?subject=${subject}&body=${body}`;
+    modalBack.classList.remove('open');
+    joinForm.reset();
   });
 
   document.getElementById('year').textContent = new Date().getFullYear();
