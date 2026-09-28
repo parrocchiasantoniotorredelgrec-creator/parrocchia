@@ -451,8 +451,8 @@
       </div>
       <div class="sac-cta">
         <div>
-          <h3>Vuoi far parte di questo gruppo?</h3>
-          <p>Iscriviti: la parrocchia riceverà una richiesta con i tuoi dati e ti ricontatterà.</p>
+          <h3>Vuoi iscrivere tuo figlio/a al catechismo?</h3>
+          <p>Scarica la scheda di iscrizione e consegnala compilata all'ufficio catechistico.</p>
         </div>
         <button type="button" class="btn btn-solid" id="joinBtn">Iscriviti →</button>
       </div>
@@ -483,30 +483,13 @@
 <div class="modal-back" id="modalBack">
   <div class="modal">
     <button class="modal-close" id="modalClose" aria-label="Chiudi">✕</button>
-    <h3>Iscriviti al gruppo</h3>
-    <p class="sub" id="modalGroupName">—</p>
-    <form id="joinForm">
-      <div class="field">
-        <label for="fNome">Nome e cognome</label>
-        <input id="fNome" required placeholder="Es. Maria Esposito">
-      </div>
-      <div class="field">
-        <label for="fTel">Telefono</label>
-        <input id="fTel" required placeholder="Es. 333 1234567">
-      </div>
-      <div class="field">
-        <label for="fEmail">Email</label>
-        <input id="fEmail" type="email" placeholder="tua@email.it">
-      </div>
-      <div class="field">
-        <label for="fNote">Note (facoltativo)</label>
-        <textarea id="fNote" placeholder="Età, disponibilità, domande..."></textarea>
-      </div>
-      <div class="modal-actions">
-        <button type="submit" class="btn btn-solid" style="width:100%; justify-content:center;">Invia richiesta d'iscrizione</button>
-      </div>
-      <p class="form-note">Si aprirà la tua app di posta con i dati già compilati, pronti da inviare alla parrocchia.</p>
-    </form>
+    <h3>Iscrizione al catechismo</h3>
+    <div style="background:color-mix(in srgb, var(--gold) 16%, var(--paper-2)); border:1px solid var(--gold); border-radius:var(--radius); padding:14px 16px; margin:14px 0 16px;">
+      <strong style="display:block; margin-bottom:4px;">Iscrizioni chiuse</strong>
+      <p style="margin:0; font-size:14px; color:var(--ink-soft);">Le iscrizioni ai percorsi di catechesi per l'anno pastorale 2026/2027 sono al momento chiuse.</p>
+    </div>
+    <p style="color:var(--ink-soft); font-size:14.5px; line-height:1.6;">Per iscrivere tuo figlio/a, scarica la scheda, compilala e consegnala — insieme alla fotocopia dei documenti di entrambi i genitori — presso l'ufficio catechistico della parrocchia.</p>
+    <a class="btn btn-solid" style="width:100%; justify-content:center; text-decoration:none;" href="modulo-iscrizione-catechismo-2026-2027.pdf" download>Scarica il modulo (PDF) ↓</a>
   </div>
 </div>
 
@@ -584,52 +567,12 @@
     sacramentiDropdown.appendChild(a);
   });
 
-  // ---- Modale di iscrizione ----
+  // ---- Modale iscrizione catechismo ----
   const modalBack = document.getElementById('modalBack');
   const modalClose = document.getElementById('modalClose');
-  const modalGroupName = document.getElementById('modalGroupName');
-  const joinForm = document.getElementById('joinForm');
-  let currentGroup = '';
-
-  joinForm.querySelectorAll('input, textarea').forEach((field) => {
-    field.addEventListener('invalid', function () {
-      if (this.validity.valueMissing) {
-        this.setCustomValidity('Compila questo campo.');
-      } else if (this.type === 'email' && this.validity.typeMismatch) {
-        this.setCustomValidity('Inserisci un indirizzo email valido.');
-      } else {
-        this.setCustomValidity('');
-      }
-    });
-    field.addEventListener('input', function () {
-      this.setCustomValidity('');
-    });
-  });
-
-  currentGroup = 'Catechisti';
-  modalGroupName.textContent = 'Gruppo: ' + currentGroup;
   document.getElementById('joinBtn').addEventListener('click', () => modalBack.classList.add('open'));
   modalClose.addEventListener('click', () => modalBack.classList.remove('open'));
   modalBack.addEventListener('click', (e) => { if(e.target === modalBack) modalBack.classList.remove('open'); });
-
-  joinForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const nome = document.getElementById('fNome').value.trim();
-    const tel = document.getElementById('fTel').value.trim();
-    const email = document.getElementById('fEmail').value.trim();
-    const note = document.getElementById('fNote').value.trim();
-    const subject = encodeURIComponent('Iscrizione gruppo: ' + currentGroup);
-    const body = encodeURIComponent(
-      `Richiesta di iscrizione al gruppo: ${currentGroup}\n\n` +
-      `Nome e cognome: ${nome}\n` +
-      `Telefono: ${tel}\n` +
-      `Email: ${email || '-'}\n` +
-      `Note: ${note || '-'}\n`
-    );
-    window.location.href = `mailto:info@parrocchiasantantoniodipadova.it?subject=${subject}&body=${body}`;
-    modalBack.classList.remove('open');
-    joinForm.reset();
-  });
 
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>

@@ -398,7 +398,7 @@
 <div class="modal-back" id="modalBack">
   <div class="modal">
     <button class="modal-close" id="modalClose" aria-label="Chiudi">✕</button>
-    <h3>Iscriviti al gruppo</h3>
+    <h3 id="modalTitle">Iscriviti al gruppo</h3>
     <p class="sub" id="modalGroupName">—</p>
     <form id="joinForm">
       <div class="field">
@@ -422,6 +422,14 @@
       </div>
       <p class="form-note">Si aprirà la tua app di posta con i dati già compilati, pronti da inviare alla parrocchia.</p>
     </form>
+    <div id="catechismoNotice" style="display:none;">
+      <div style="background:color-mix(in srgb, var(--gold) 16%, var(--paper-2)); border:1px solid var(--gold); border-radius:var(--radius); padding:14px 16px; margin-bottom:16px;">
+        <strong style="display:block; margin-bottom:4px;">Iscrizioni chiuse</strong>
+        <p style="margin:0; font-size:14px; color:var(--ink-soft);">Le iscrizioni ai percorsi di catechesi per l'anno pastorale 2026/2027 sono al momento chiuse.</p>
+      </div>
+      <p style="color:var(--ink-soft); font-size:14.5px; line-height:1.6;">Per iscrivere tuo figlio/a, scarica la scheda, compilala e consegnala — insieme alla fotocopia dei documenti di entrambi i genitori — presso l'ufficio catechistico della parrocchia.</p>
+      <a class="btn btn-solid" style="width:100%; justify-content:center; text-decoration:none;" href="modulo-iscrizione-catechismo-2026-2027.pdf" download>Scarica il modulo (PDF) ↓</a>
+    </div>
   </div>
 </div>
 
@@ -546,8 +554,10 @@
   // ---- Modale di iscrizione ----
   const modalBack = document.getElementById('modalBack');
   const modalClose = document.getElementById('modalClose');
+  const modalTitle = document.getElementById('modalTitle');
   const modalGroupName = document.getElementById('modalGroupName');
   const joinForm = document.getElementById('joinForm');
+  const catechismoNotice = document.getElementById('catechismoNotice');
   let currentGroup = '';
 
   // ---- Messaggi di validazione del modulo in italiano ----
@@ -570,7 +580,17 @@
     const btn = e.target.closest('.grp-join');
     if(!btn) return;
     currentGroup = btn.dataset.group;
-    modalGroupName.textContent = 'Gruppo: ' + currentGroup;
+    if (currentGroup === 'Catechisti') {
+      modalTitle.textContent = 'Iscrizione al catechismo';
+      modalGroupName.textContent = '';
+      joinForm.style.display = 'none';
+      catechismoNotice.style.display = 'block';
+    } else {
+      modalTitle.textContent = 'Iscriviti al gruppo';
+      modalGroupName.textContent = 'Gruppo: ' + currentGroup;
+      joinForm.style.display = '';
+      catechismoNotice.style.display = 'none';
+    }
     modalBack.classList.add('open');
   });
   modalClose.addEventListener('click', () => modalBack.classList.remove('open'));
